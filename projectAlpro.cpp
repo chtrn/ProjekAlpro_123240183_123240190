@@ -276,6 +276,6 @@ void menu ()
 int main () {
     system("cls");
     menu();
-
+cout << " oke ";
 return 0;
 }
