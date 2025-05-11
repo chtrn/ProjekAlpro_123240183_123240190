@@ -7,7 +7,7 @@ using namespace std;
 const int max_Menu = 100;
 string carinama; 
 char awal;
-int pilih, pilih1, pilih2;
+int pilih, pilih1 = 0;
 void menu();
 void makyus();
 void Legenda();
@@ -76,21 +76,34 @@ string toLowerCase(string str) {
 
 void tampilkanMenu(const string& namaWarung)
 {
-        cout << "======= Menu " << namaWarung << " =======" << endl;
-        cout << left << setw(20) << "Makanan " << "   Harga " << endl;
-        for (int i = 0; i < 5; i++) {
-            cout << left << i + 1 << ". "<< setw(20) << daftarMenu[i].nama
-                 << setw(5) << daftarMenu[i].harga << "\n";
-        }
-        cout << left << "6. " << setw(20) << "Tidak pesan makanan\n";
-        cout << "\nMinuman " << endl;
+    cout << "======= Menu " << namaWarung << " =======" << endl;
 
-        for (int i = 6; i < 8; i++) {
-            cout << left << i + 1 << ". " << setw(20) << daftarMenu[i].nama
-                 << setw(5) << daftarMenu[i].harga << "\n";
+    cout << "\nMakanan:\n";
+    cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
+    int count = 1;
+    for (int i = 0; i < max_Menu; i++) {
+        if (daftarMenu[i].namaWarung == namaWarung && i % 8 < 5) { 
+            cout << left << setw(5) << count << setw(20) << daftarMenu[i].nama
+                 << "Rp" << daftarMenu[i].harga << endl;
+            count++;
         }
-        cout << left << "9. " << setw(20) << "Kembali ke menu awal\n";
-        cout << left << "10. " << setw(20) << "Tidak pesan minuman\n";
+    }
+    cout << left << setw(5) << count << setw(20) << "Tidak pesan makanan\n";
+    int totalMakanan = count;
+
+    cout << "\nMinuman:\n";
+    cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
+    int minumCount = 1;
+    for (int i = 0; i < max_Menu; i++) {
+        if (daftarMenu[i].namaWarung == namaWarung && i % 8 >= 5 && i % 8 <= 7) { 
+            cout << left << setw(5) << minumCount << setw(20) << daftarMenu[i].nama
+                 << "Rp" << daftarMenu[i].harga << endl;
+            minumCount++;
+        }
+    }
+    cout << left << setw(5) << minumCount << setw(20) << "Tidak pesan minuman\n";
+
+    cout << "\n10. Kembali ke menu awal\n";
 }
 
 void cariMenuDiWarung(const string& namaWarung)
@@ -102,13 +115,18 @@ void cariMenuDiWarung(const string& namaWarung)
 
     for (int i = 0; i < sizeof(daftarMenu) / sizeof(daftarMenu[0]); i++)
     {
-        if (daftarMenu[i].namaWarung == namaWarung && daftarMenu[i].nama == carinama)
+        if (toLowerCase(daftarMenu[i].namaWarung) == toLowerCase(namaWarung) &&
+            toLowerCase(daftarMenu[i].nama) == toLowerCase(carinama))
         {
             cout << "\nMenu ditemukan di " << daftarMenu[i].namaWarung << " :\n"
                  << daftarMenu[i].nama << " - Rp" << daftarMenu[i].harga << endl;
             found = true;
         }
     }
+
+    if (!found)
+        cout << "Menu tidak ditemukan di warung " << namaWarung << ".\n";
+
     cout << "Kembali ke menu awal (y/n)? : "; cin >> awal;
     if (awal == 'y' || awal == 'Y')
         if (namaWarung == "Makyus")
@@ -121,15 +139,47 @@ void cariMenuDiWarung(const string& namaWarung)
             Nusantara();
         if (namaWarung == "Gepriks")
             Gepriks();
-    if (!found)
-        cout << "Menu tidak ditemukan di warung " << namaWarung << ".\n";
 }
 
-void sorting()
+void sorting(const string& namaWarung)
 {   
+    system("cls");
+    do {
+    cout << "== Sorting Menu " << namaWarung << " ==\n";
+    cout << "1. Berdasarkan harga termurah (Ascending)\n";
+    cout << "2. Berdasarkan harga termahal (Descending)\n";
+    cout << "Pilih: ";
+    cin >> pilih;
 
-    cout << "1. Ascending\n";
-    cout << "2. Descending\n";
+    Menu menuWarung[max_Menu];
+    int jumlah = 0;
+    for (int i = 0; i < max_Menu; i++) {
+        if (toLowerCase(daftarMenu[i].namaWarung) == toLowerCase(namaWarung)) {
+            menuWarung[jumlah++] = daftarMenu[i];
+        }
+    }
+
+    for (int i = 0; i < jumlah - 1; i++) {
+        for (int j = 0; j < jumlah - i - 1; j++) {
+            bool perluTukar = false;
+            if (pilih == 1 && menuWarung[j].harga > menuWarung[j + 1].harga) {
+                perluTukar = true;
+            } else if (pilih == 2 && menuWarung[j].harga < menuWarung[j + 1].harga) {
+                perluTukar = true;
+            }
+
+            if (perluTukar) {
+                swap(menuWarung[j], menuWarung[j + 1]);
+            }
+        }
+    }
+
+    cout << "\n=== Menu " << namaWarung << " (Sudah urut) ===\n";
+    cout << left << setw(30) << "Nama Menu" << "Harga\n";
+    for (int i = 0; i < jumlah; i++) {
+        cout << left << setw(30) << menuWarung[i].nama << "Rp" << menuWarung[i].harga << endl;
+    }
+} while (pilih > 2 || pilih < 1);
 }
 
 void makyus ()
@@ -151,7 +201,7 @@ void makyus ()
                 break;
             
             case 3 :
-                sorting();
+                sorting("Makyus");
                 break;
 
             case 4:
@@ -162,7 +212,7 @@ void makyus ()
                 cout << " Pilihan tidak valid!\n";
                 break;
         }
-    } while (pilih > 4 || pilih < 1 || pilih1 == 9);
+    } while (pilih > 4 || pilih < 1 || pilih1 == 10);
 }
 
 void Legenda ()
@@ -189,7 +239,7 @@ void Legenda ()
             cariMenuDiWarung("Legenda");
             break;
         case 3 :
-            sorting();
+            sorting("Legenda");
             break;
 
         case 4 :
@@ -200,7 +250,7 @@ void Legenda ()
             cout << " Pilihan tidak valid!";
             break;
     }
-    } while(pilih > 3 || pilih < 1 || pilih1 == 9);
+    } while(pilih > 4 || pilih < 1 || pilih1 == 10);
 }
 
 void FoodKuy ()
@@ -226,7 +276,7 @@ void FoodKuy ()
         break;
     
     case 3 :
-        sorting();
+        sorting("Foodkuy");
         break;
 
     case 4 :
@@ -238,7 +288,7 @@ void FoodKuy ()
         break;
     }
 
-} while ( pilih > 3 || pilih < 1);
+} while ( pilih > 4 || pilih < 1 || pilih1 == 10);
 } 
 
 void Nusantara ()
@@ -265,7 +315,7 @@ void Nusantara ()
             break;
         
         case 3 :
-            sorting();
+            sorting("Nusantara");
             break;
 
         case 4 :
@@ -276,7 +326,7 @@ void Nusantara ()
             cout << "Pilihan tidak valid!\n";
             break;
     }
-    } while (pilih > 3 || pilih < 1);
+    } while (pilih > 4 || pilih < 1 || pilih1 == 10);
 }
 
 void Gepriks()
@@ -303,11 +353,15 @@ void Gepriks()
             cariMenuDiWarung("Gepriks");
             break;
 
+        case 3 :
+            sorting("Gepriks");
+            break;
+
         default:
             cout << "Pilihan tidak valid!\n";
             break;
         }
-    } while (pilih > 3 || pilih < 1);
+    } while (pilih > 4 || pilih < 1 || pilih1 == 10);
 }
 
 void cariMenu (const string& namaWarung)
@@ -364,12 +418,12 @@ void menu ()
         break;
 
     case 6 : 
-        cout << "Keluar dari program! ";
+        cout << " Keluar dari program! ";
         exit(0);
         break;
 
     default : 
-        cout << "Input salah harap ulangi input Anda!";
+        cout << " Input salah harap ulangi input Anda!";
         break;
    }
    
