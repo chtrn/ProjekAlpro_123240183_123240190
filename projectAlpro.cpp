@@ -24,14 +24,14 @@ struct Menu {
 
 Menu daftarMenu[max_Menu] =
     {
-        {"Seblak", 120000, "Makyus"},
-        {"Mie Goreng", 70000, "Makyus"},
-        {"Bakso Bakar", 100000, "Makyus"},
-        {"Mie Ayam", 90000, "Makyus"},
-        {"Mie Pedas", 100000, "Makyus"},
-        {"Es Teh", 300000, "Makyus"},
-        {"Es Jeruk", 300000, "Makyus"},
-        {"Air Putih", 200000, "Makyus"},
+        {"Seblak", 120000, "Maknyus"},
+        {"Mie Goreng", 70000, "Maknyus"},
+        {"Bakso Bakar", 100000, "Maknyus"},
+        {"Mie Ayam", 90000, "Maknyus"},
+        {"Mie Pedas", 100000, "Maknyus"},
+        {"Es Teh", 300000, "Maknyus"},
+        {"Es Jeruk", 300000, "Maknyus"},
+        {"Air Putih", 200000, "Maknyus"},
 
         {"Risol", 3000000, "Legenda"},
         {"Piscok", 2000000, "Legenda"},
@@ -117,12 +117,13 @@ void pesanMenu(const string& namaWarung)
     cout << "Pilih menu : ";
     cin >> pilihan;
 
-    if (pilihan >= 1 && pilihan <= 8) {
+    if (pilihan >= 1 && pilihan <= 8)
+    {
         cout << "Anda memesan " << daftarMenu[pilihan - 1].nama
              << " dari " << namaWarung << endl;
         cout << "Harga: Rp " << daftarMenu[pilihan - 1].harga << endl;
-    } else if (pilihan == 10) {
-        cout << "Kembali ke menu awal.\n";
+    } else if (pilihan == 10){
+        cout << "Kembali ke menu awal\n";
     } else {
         cout << "Pilihan tidak valid!\n";
     }
@@ -167,12 +168,12 @@ void sorting(const string& namaWarung)
 {   
     system("cls");
     do {
-    cout << "== Sorting Menu " << namaWarung << " ==\n";
+    cout << "======= Sorting Menu " << namaWarung << " =======\n";
     cout << "1. Berdasarkan harga termurah (Ascending)\n";
     cout << "2. Berdasarkan harga termahal (Descending)\n";
     cout << "Pilih: ";
     cin >> pilih;
-
+    
     Menu menuWarung[max_Menu];
     int jumlah = 0;
     for (int i = 0; i < max_Menu; i++) {
@@ -188,6 +189,8 @@ void sorting(const string& namaWarung)
                 perluTukar = true;
             } else if (pilih == 2 && menuWarung[j].harga < menuWarung[j + 1].harga) {
                 perluTukar = true;
+            } else if (pilih > 2 || pilih < 1){
+                cout << "Pilihan tidak valid\n";
             }
 
             if (perluTukar) {
@@ -196,9 +199,10 @@ void sorting(const string& namaWarung)
         }
     }
 
-    cout << "\n=== Menu " << namaWarung << " (Sudah urut) ===\n";
+    cout << "\n======= Menu " << namaWarung << " (Sudah urut) =======\n";
     cout << left << setw(30) << "Nama Menu" << "Harga\n";
-    for (int i = 0; i < jumlah; i++) {
+    for (int i = 0; i < jumlah; i++)
+    {
         cout << left << setw(30) << menuWarung[i].nama << "Rp" << menuWarung[i].harga << endl;
     }
 } while (pilih > 2 || pilih < 1);
@@ -207,29 +211,28 @@ void sorting(const string& namaWarung)
 void maknyus ()
 {   
     system("cls");
-    do {
+    do
+    {
         cout << "* Warung Maknyus *\n1. Lihat menu\n2. Pesan Menu\n3. Cari menu\n4. Sorting\n5. Kembali ke menu utama\nPilih : ";
         cin >> pilih;
-        switch (pilih) {
+        switch (pilih)
+        {
             case 1:
-            while (pilih1 > 10 || pilih1 < 1){
-            tampilkanMenu("Maknyus");
-            cout << "Pilih : "; cin >> pilih1;
+                tampilkanMenu("Maknyus");
+                cout << "Kambali ke menu (y/n) : "; cin >> awal;
                 maknyus();
                 break;
 
             case 2 : 
-                 pesanMenu("Makyus");
-                 maknyus();
-                 break;
+                pesanMenu("Maknyus");
+                break;
+
             case 3:
-                cariMenuDiWarung("Makyus");
-                maknyus();
+                cariMenuDiWarung("Maknyus");
                 break;
             
             case 4 :
-                sorting("Makyus");
-                maknyus();
+                sorting("Maknyus");
                 break;
 
             case 5:
@@ -239,9 +242,9 @@ void maknyus ()
             default : 
                 cout << " Pilihan tidak valid!\n";
                 break;
-        }
-    } 
-     } while (pilih >5 || pilih < 1 || pilih1 == 10);
+        
+        } 
+    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
 }
 
   void Legenda ()
@@ -249,140 +252,126 @@ void maknyus ()
     system("cls");
     do
     {
-    cout << "* Warung Legenda *\n";
-    cout << "1. Lihat menu\n";
-    cout << "2. Pesan menu\n";
-    cout << "3. Cari menu\n";
-    cout << "4. Sorting\n";
-    cout << "5. Kembali ke menu utama\n";
-    cout << "Pilih : "; cin >> pilih;
-    switch (pilih)
-    {
-        case 1 : 
-            while (pilih1 > 10 || pilih1 < 1){
+        cout << "* Warung Legenda *\n";
+        cout << "1. Lihat menu\n";
+        cout << "2. Pesan menu\n";
+        cout << "3. Cari menu\n";
+        cout << "4. Sorting\n";
+        cout << "5. Kembali ke menu utama\n";
+        cout << "Pilih : "; cin >> pilih;
+        switch (pilih)
+        {
+            case 1 : 
                 tampilkanMenu("Legenda");
-                cout << "Pilih : "; cin >> pilih1;
-            }
-            Legenda();
-            break;
+                cout << "Kambali ke menu (y/n) : "; cin >> awal;
+                break;
 
-        case 2 : 
-            pesanMenu("Legenda");
-            Legenda();
-            break;
+            case 2 : 
+                pesanMenu("Legenda");
+                break;
 
-        case 3 :
-            cariMenuDiWarung("Legenda");
-            Legenda();
-            break;
-        case 4 :
-            sorting("Legenda");
-            Legenda();
-            break;
+            case 3 :
+                cariMenuDiWarung("Legenda");
+                break;
 
-        case 5 :
-            menu();
-            break;
+            case 4 :
+                sorting("Legenda");
+                break;
 
-        default : 
-            cout << " Pilihan tidak valid!";
-            break;
-    }
-    } while(pilih > 5 || pilih < 1 || pilih1 == 10);
+            case 5 :
+                menu();
+                break;
+
+            default : 
+                cout << " Pilihan tidak valid!";
+                break;
+        }
+    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
 }
 
 void FoodKuy ()
 {
     system("cls");
-    do { 
-    cout << "* Warung FoodKuy *\n";
-    cout << "1. Lihat menu\n";
-    cout << "2. Pesan menu\n";
-    cout << "3. Cari menu\n";
-    cout << "4. Sorting\n";
-    cout << "5. Kembali ke menu utama\n";
-    cout << "Pilih : "; cin >> pilih;
-    switch ( pilih ) {
-        case 1 :
-        while (pilih1 > 10 || pilih1 < 1){
+    do
+    { 
+        cout << "* Warung FoodKuy *\n";
+        cout << "1. Lihat menu\n";
+        cout << "2. Pesan menu\n";
+        cout << "3. Cari menu\n";
+        cout << "4. Sorting\n";
+        cout << "5. Kembali ke menu utama\n";
+        cout << "Pilih : "; cin >> pilih;
+        switch ( pilih )
+        {
+            case 1 :
             tampilkanMenu("Foodkuy");
-            cout << "Pilih : "; cin >> pilih1;
+            cout << "Kambali ke menu (y/n) : "; cin >> awal;
+            break;
+        
+            case 2 : 
+            pesanMenu("Foodkuy");
+            break;
+
+            case 3 :
+            cariMenuDiWarung("Foodkuy");
+            break;
+        
+            case 4 :
+            sorting("Foodkuy");
+            break;
+
+            case 5 :
+            menu();
+            break;
+
+            default :
+            cout << "Pilihan tidak valid!\n";
+            break;
         }
-        FoodKuy();
-        break;
-    
-    case 2 : 
-         pesanMenu("Foodkuy");
-         FoodKuy();
-         break;
 
-    case 3 :
-        cariMenuDiWarung("Foodkuy");
-        FoodKuy();
-        break;
-    
-    case 4 :
-        sorting("Foodkuy");
-        FoodKuy();
-        break;
-
-    case 5 :
-        menu();
-        break;
-
-    default :
-        cout << "Pilihan tidak valid!\n";
-        break;
-    }
-
-} while ( pilih > 5 || pilih < 1 || pilih1 == 10);
+    } while ( pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'Y' || awal == 'y');
 } 
 
 void Nusantara ()
 {
     system("cls");
-    do {
-    cout << "* Warung Nusantara *\n";
-    cout << "1. Lihat menu\n";
-    cout << "2. Pesan Menu\n";
-    cout << "3. Cari menu\n";
-    cout << "4. Sorting\n";
-    cout << "5. Kembali ke menu utama\n";
-    cout << "Pilih : "; cin >> pilih;
-    switch (pilih)
+    do
     {
-        case 1 :
-        while (pilih1 > 9 || pilih1 < 1) {
+        cout << "* Warung Nusantara *\n";
+        cout << "1. Lihat menu\n";
+        cout << "2. Pesan Menu\n";
+        cout << "3. Cari menu\n";
+        cout << "4. Sorting\n";
+        cout << "5. Kembali ke menu utama\n";
+        cout << "Pilih : "; cin >> pilih;
+        switch (pilih)
+        {
+            case 1 :
                 tampilkanMenu("Nusantara");
-                cout << "Pilih : "; cin >> pilih1;
-            }
-            Nusantara();
-            break;
+                cout << "Kambali ke menu (y/n) : "; cin >> awal;
+                break;
 
-        case 2 : 
-            pesanMenu("Nusantara");
-            Nusantara();
-            break;
-    
-        case 3 :
-            cariMenuDiWarung("Nusantara");
-            Nusantara();
-            break;
+            case 2 : 
+                pesanMenu("Nusantara");
+                break;
         
-        case 4 :
-            sorting("Nusantara");
-            Nusantara();
-            break;
+            case 3 :
+                cariMenuDiWarung("Nusantara");
+                break;
+            
+            case 4 :
+                sorting("Nusantara");
+                break;
 
-        case 5 :
-            menu();
-            break;
+            case 5 :
+                menu();
+                break;
 
-        default:
-            cout << "Pilihan tidak valid!\n";
-            break;
-    }
-    } while (pilih > 5 || pilih < 1 || pilih1 == 10);
+            default:
+                cout << "Pilihan tidak valid!\n";
+                break;
+        }
+    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
 }
 
 void Gepriks()
@@ -399,34 +388,28 @@ void Gepriks()
         cout << "Pilih : "; cin >> pilih;
         switch (pilih)
         {
-        case 1 :
-            while (pilih1 > 9 || pilih1 < 1) {
-                tampilkanMenu("Gepriks");
-                cout << "Pilih : "; cin >> pilih1;
-            }
-            Gepriks();
+            case 1 :
+            tampilkanMenu("Gepriks");
+            cout << "Kambali ke menu (y/n) : "; cin >> awal;
             break;
 
-        case 2 : 
+            case 2 : 
             pesanMenu("Gepriks");
-            Gepriks();
             break;
 
-        case 3 :
+            case 3 :
             cariMenuDiWarung("Gepriks");
-            Gepriks();
             break;
 
-        case 4 :
+            case 4 :
             sorting("Gepriks");
-            Gepriks();
             break;
 
-        default:
+            default:
             cout << "Pilihan tidak valid!\n";
             break;
         }
-    } while (pilih > 4 || pilih < 1 || pilih1 == 10);
+    } while (pilih > 4 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
 }
 
 void cariMenu (const string& namaWarung)
@@ -454,14 +437,16 @@ void cariMenu (const string& namaWarung)
 
 void menu ()
 {
-   do {
+    do
+    {
     system("cls");
     cout << " * Selamat datang di Kuliner Street Food ! * " << endl;
-    cout << " 1. Makyus \n 2. Legenda \n 3. FoodKuy! \n 4. Nusantara\n";
+    cout << " 1. Maknyus \n 2. Legenda \n 3. FoodKuy! \n 4. Nusantara\n";
     cout << " 5. Gepriks\n 6. Keluar\n";
     cout << " Pilih Warung : ";
     cin >> pilih;
-    switch (pilih) {
+    switch (pilih)
+    {
     case 1 : 
         maknyus();
         break;
@@ -495,9 +480,9 @@ void menu ()
 } while (( pilih > 5 || pilih < 1 ));
 }
 
-int main () {
+int main ()
+{
     system("cls");
     menu();
-
-return 0;
+    return 0;
 }
