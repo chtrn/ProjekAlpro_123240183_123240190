@@ -10,7 +10,7 @@ char awal;
 int pilih; 
 int pilih1 = 0;
 void menu();
-void makyus();
+void maknyus();
 void Legenda();
 void FoodKuy();
 void Nusantara();
@@ -151,8 +151,8 @@ void cariMenuDiWarung(const string& namaWarung)
 
     cout << "Kembali ke menu awal (y/n)? : "; cin >> awal;
     if (awal == 'y' || awal == 'Y')
-        if (namaWarung == "Makyus")
-            makyus();
+        if (namaWarung == "Maknyus")
+            maknyus();
         if (namaWarung == "Legenda")
             Legenda();
         if (namaWarung == "Foodkuy")
@@ -204,32 +204,32 @@ void sorting(const string& namaWarung)
 } while (pilih > 2 || pilih < 1);
 }
 
-void makyus ()
+void maknyus ()
 {   
     system("cls");
     do {
-        cout << "* Warung Makyus *\n1. Lihat menu\n2. Pesan Menu\n3. Cari menu\n4. Sorting\n5. Kembali ke menu utama\nPilih : ";
+        cout << "* Warung Maknyus *\n1. Lihat menu\n2. Pesan Menu\n3. Cari menu\n4. Sorting\n5. Kembali ke menu utama\nPilih : ";
         cin >> pilih;
         switch (pilih) {
             case 1:
             while (pilih1 > 10 || pilih1 < 1){
-            tampilkanMenu("Makyus");
+            tampilkanMenu("Maknyus");
             cout << "Pilih : "; cin >> pilih1;
-            if ( pilih1 == 10) {
-                menu();
-                return;
-            }
+                maknyus();
                 break;
 
             case 2 : 
                  pesanMenu("Makyus");
+                 maknyus();
                  break;
             case 3:
                 cariMenuDiWarung("Makyus");
+                maknyus();
                 break;
             
             case 4 :
                 sorting("Makyus");
+                maknyus();
                 break;
 
             case 5:
@@ -263,17 +263,21 @@ void makyus ()
                 tampilkanMenu("Legenda");
                 cout << "Pilih : "; cin >> pilih1;
             }
+            Legenda();
             break;
 
         case 2 : 
             pesanMenu("Legenda");
+            Legenda();
             break;
 
         case 3 :
             cariMenuDiWarung("Legenda");
+            Legenda();
             break;
         case 4 :
             sorting("Legenda");
+            Legenda();
             break;
 
         case 5 :
@@ -304,18 +308,22 @@ void FoodKuy ()
             tampilkanMenu("Foodkuy");
             cout << "Pilih : "; cin >> pilih1;
         }
+        FoodKuy();
         break;
     
     case 2 : 
          pesanMenu("Foodkuy");
+         FoodKuy();
          break;
 
     case 3 :
         cariMenuDiWarung("Foodkuy");
+        FoodKuy();
         break;
     
     case 4 :
         sorting("Foodkuy");
+        FoodKuy();
         break;
 
     case 5 :
@@ -348,18 +356,22 @@ void Nusantara ()
                 tampilkanMenu("Nusantara");
                 cout << "Pilih : "; cin >> pilih1;
             }
+            Nusantara();
             break;
 
         case 2 : 
             pesanMenu("Nusantara");
+            Nusantara();
             break;
     
         case 3 :
             cariMenuDiWarung("Nusantara");
+            Nusantara();
             break;
         
         case 4 :
             sorting("Nusantara");
+            Nusantara();
             break;
 
         case 5 :
@@ -392,18 +404,22 @@ void Gepriks()
                 tampilkanMenu("Gepriks");
                 cout << "Pilih : "; cin >> pilih1;
             }
+            Gepriks();
             break;
 
         case 2 : 
             pesanMenu("Gepriks");
+            Gepriks();
             break;
 
         case 3 :
             cariMenuDiWarung("Gepriks");
+            Gepriks();
             break;
 
         case 4 :
             sorting("Gepriks");
+            Gepriks();
             break;
 
         default:
@@ -447,7 +463,7 @@ void menu ()
     cin >> pilih;
     switch (pilih) {
     case 1 : 
-        makyus();
+        maknyus();
         break;
 
     case 2 : 
