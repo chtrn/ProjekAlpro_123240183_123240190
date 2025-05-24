@@ -2,75 +2,85 @@
 #include <iomanip>
 #include <string>
 #include <algorithm>
+#include <fstream>
 using namespace std;
 
 const int max_Menu = 100;
 string carinama; 
 char awal;
 int pilih; 
-int pilih1 = 0;
+int pilih1;
+int jumlahPesanan;
+char confirm;
+string namaMakanan = "", namaMinuman = "";
+int hargaMakanan = 0, hargaMinuman = 0;
+int jumlahMakanan = 0, jumlahMinuman = 0;
+
 void menu();
 void maknyus();
 void Legenda();
 void FoodKuy();
 void Nusantara();
 void Gepriks();
+void konfirmasi(const string& namaWarung);
 
-struct Menu {
+struct Menu 
+{
     string nama;
     int harga;
     string namaWarung;
 };
 
 Menu daftarMenu[max_Menu] =
-    {
-        {"Seblak", 120000, "Maknyus"},
-        {"Mie Goreng", 70000, "Maknyus"},
-        {"Bakso Bakar", 100000, "Maknyus"},
-        {"Mie Ayam", 90000, "Maknyus"},
-        {"Mie Pedas", 100000, "Maknyus"},
-        {"Es Teh", 300000, "Maknyus"},
-        {"Es Jeruk", 300000, "Maknyus"},
-        {"Air Putih", 200000, "Maknyus"},
+{
+    {"Seblak", 120000, "Maknyus"},
+    {"Mie Goreng", 70000, "Maknyus"},
+    {"Bakso Bakar", 100000, "Maknyus"},
+    {"Mie Ayam", 90000, "Maknyus"},
+    {"Mie Pedas", 100000, "Maknyus"},
+    {"Es Teh", 300000, "Maknyus"},
+    {"Es Jeruk", 300000, "Maknyus"},
+    {"Air Putih", 200000, "Maknyus"},
 
-        {"Risol", 3000000, "Legenda"},
-        {"Piscok", 2000000, "Legenda"},
-        {"Sosis", 3000000, "Legenda"},
-        {"Onde-onde", 5000000, "Legenda"},
-        {"Kue Lapis", 3000000, "Legenda"},
-        {"Jus Jambu", 9000000, "Legenda"},
-        {"Es Teller", 5000000, "Legenda"},
-        {"Es Buah", 6000000, "Legenda"},
+    {"Risol", 3000000, "Legenda"},
+    {"Piscok", 2000000, "Legenda"},
+    {"Sosis", 3000000, "Legenda"},
+    {"Onde-onde", 5000000, "Legenda"},
+    {"Kue Lapis", 3000000, "Legenda"},
+    {"Jus Jambu", 9000000, "Legenda"},
+    {"Es Teller", 5000000, "Legenda"},
+    {"Es Buah", 6000000, "Legenda"},
 
-        {"Dimsum", 100000, "Foodkuy"},
-        {"Corndog", 200000, "Foodkuy"},
-        {"Burger", 150000, "Foodkuy"},
-        {"Spaghetti", 120000, "Foodkuy"},
-        {"Sushi", 130000, "Foodkuy"},
-        {"Jus Mangga", 500000, "Foodkuy"},
-        {"Es Kyut", 300000, "Foodkuy"},
-        {"Es Durian", 500000, "Foodkuy"},
+    {"Dimsum", 100000, "Foodkuy"},
+    {"Corndog", 200000, "Foodkuy"},
+    {"Burger", 150000, "Foodkuy"},
+    {"Spaghetti", 120000, "Foodkuy"},
+    {"Sushi", 130000, "Foodkuy"},
+    {"Jus Mangga", 500000, "Foodkuy"},
+    {"Es Kyut", 300000, "Foodkuy"},
+    {"Es Durian", 500000, "Foodkuy"},
 
-        {"Nasi Padang", 130000, "Nusantara"},
-        {"Gudeg", 102000, "Nusantara"},
-        {"Salad Solo", 250000, "Nusantara"},
-        {"Nasi Goreng", 150000, "Nusantara"},
-        {"Pempek", 120000, "Nusantara"},
-        {"Wedang Ronde", 600000, "Nusantara"},
-        {"Wedang Uwuh", 500000, "Nusantara"},
-        {"Es Dawet", 400000, "Nusantara"},
+    {"Nasi Padang", 130000, "Nusantara"},
+    {"Gudeg", 102000, "Nusantara"},
+    {"Salad Solo", 250000, "Nusantara"},
+    {"Nasi Goreng", 150000, "Nusantara"},
+    {"Pempek", 120000, "Nusantara"},
+    {"Wedang Ronde", 600000, "Nusantara"},
+    {"Wedang Uwuh", 500000, "Nusantara"},
+    {"Es Dawet", 400000, "Nusantara"},
 
-        {"Ayam Geprek lv 0", 150000, "Gepriks"},
-        {"Ayam Geprek lv 1", 160000, "Gepriks"},
-        {"Ayam Geprek lv 2", 170000, "Gepriks"},
-        {"Ayam Geprek lv 3", 180000, "Gepriks"},
-        {"Ayam Geprek lv 4", 190000, "Gepriks"},
-        {"Es Teh", 300000, "Gepriks"},
-        {"Es Jeruk", 200000, "Gepriks"},
-        {"Es Cokelat", 400000, "Gepriks"}
+    {"Ayam Geprek lv 0", 150000, "Gepriks"},
+    {"Ayam Geprek lv 1", 160000, "Gepriks"},
+    {"Ayam Geprek lv 2", 170000, "Gepriks"},
+    {"Ayam Geprek lv 3", 180000, "Gepriks"},
+    {"Ayam Geprek lv 4", 190000, "Gepriks"},
+    {"Es Teh", 300000, "Gepriks"},
+    {"Es Jeruk", 200000, "Gepriks"},
+    {"Es Cokelat", 400000, "Gepriks"}
 };
 
-string toLowerCase(string str) {
+string toLowerCase(string str)
+{
     transform(str.begin(), str.end(), str.begin(), ::tolower);
     return str;
 }
@@ -78,7 +88,6 @@ string toLowerCase(string str) {
 void tampilkanMenu(const string& namaWarung)
 {
     cout << "======= Menu " << namaWarung << " =======" << endl;
-
     cout << "\nMakanan:\n";
     cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
     int count = 1;
@@ -90,7 +99,6 @@ void tampilkanMenu(const string& namaWarung)
         }
     }
     cout << left << setw(5) << count << setw(20) << "Tidak pesan makanan\n";
-    int totalMakanan = count;
 
     cout << "\nMinuman:\n";
     cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
@@ -103,30 +111,59 @@ void tampilkanMenu(const string& namaWarung)
         }
     }
     cout << left << setw(5) << minumCount << setw(20) << "Tidak pesan minuman\n";
-    if ( pilih1 == 10 ) {
-       menu();
-        return;
-    }
-    cout << "\n10. Kembali ke menu awal\n";
 }
 
 void pesanMenu(const string& namaWarung)
 {
-    tampilkanMenu(namaWarung);
-    int pilihan;
-    cout << "Pilih menu : ";
-    cin >> pilihan;
-
-    if (pilihan >= 1 && pilihan <= 8)
+    do
     {
-        cout << "Anda memesan " << daftarMenu[pilihan - 1].nama
-             << " dari " << namaWarung << endl;
-        cout << "Harga: Rp " << daftarMenu[pilihan - 1].harga << endl;
-    } else if (pilihan == 10){
-        cout << "Kembali ke menu awal\n";
-    } else {
-        cout << "Pilihan tidak valid!\n";
-    }
+        tampilkanMenu(namaWarung);
+        Menu makanan[5], minuman[3];
+        int mknIdx = 0, mnmIdx = 0;
+
+        for (int i = 0; i < max_Menu; i++) {
+            if (daftarMenu[i].namaWarung == namaWarung) {
+                if (i % 8 < 5 && mknIdx < 5)
+                    makanan[mknIdx++] = daftarMenu[i];
+                else if (i % 8 >= 5 && i % 8 <= 7 && mnmIdx < 3)
+                    minuman[mnmIdx++] = daftarMenu[i];
+            }
+        }
+
+        int pilihMakan = 0, pilihMinum = 0;
+
+        while (pilihMakan < 1 || pilihMakan > mknIdx + 1) {
+            cout << "\nPilih makanan (1-" << mknIdx + 1 << ") : ";
+            cin >> pilihMakan;
+        }
+
+        if (pilihMakan == mknIdx + 1) {
+            cout << "Anda tidak memesan makanan.\n";
+            namaMakanan = "";
+            hargaMakanan = jumlahMakanan = 0;
+        } else {
+            namaMakanan = makanan[pilihMakan - 1].nama;
+            hargaMakanan = makanan[pilihMakan - 1].harga;
+            cout << "Jumlah makanan : "; cin >> jumlahMakanan;
+        }
+
+        while (pilihMinum < 1 || pilihMinum > mnmIdx + 1) {
+            cout << "\nPilih minuman (1-" << mnmIdx + 1 << ") : ";
+            cin >> pilihMinum;
+        }
+
+        if (pilihMinum == mnmIdx + 1) {
+            cout << "Anda tidak memesan minuman.\n";
+            namaMinuman = "";
+            hargaMinuman = jumlahMinuman = 0;
+        } else {
+            namaMinuman = minuman[pilihMinum - 1].nama;
+            hargaMinuman = minuman[pilihMinum - 1].harga;
+            cout << "Jumlah minuman : "; cin >> jumlahMinuman;
+        }
+
+        konfirmasi(namaWarung);
+    } while (confirm == 'n' || confirm == 'N');
 }
 
 void cariMenuDiWarung(const string& namaWarung)
@@ -154,14 +191,16 @@ void cariMenuDiWarung(const string& namaWarung)
     if (awal == 'y' || awal == 'Y')
         if (namaWarung == "Maknyus")
             maknyus();
-        if (namaWarung == "Legenda")
+        else if (namaWarung == "Legenda")
             Legenda();
-        if (namaWarung == "Foodkuy")
+        else if (namaWarung == "Foodkuy")
             FoodKuy();
-        if (namaWarung == "Nusantara")
+        else if (namaWarung == "Nusantara")
             Nusantara();
-        if (namaWarung == "Gepriks")
+        else if (namaWarung == "Gepriks")
             Gepriks();
+    else if (awal == 'n' || awal == 'N')
+        menu();
 }
 
 void sorting(const string& namaWarung)
@@ -205,22 +244,40 @@ void sorting(const string& namaWarung)
     {
         cout << left << setw(30) << menuWarung[i].nama << "Rp" << menuWarung[i].harga << endl;
     }
+
+    cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+    if (awal == 'y' || awal == 'Y') {
+        if (namaWarung == "Maknyus")
+            maknyus();
+        else if (namaWarung == "Legenda")
+            Legenda();
+        else if (namaWarung == "Foodkuy")
+            FoodKuy();
+        else if (namaWarung == "Nusantara")
+            Nusantara();
+        else if (namaWarung == "Gepriks")
+            Gepriks();
+    }
+    else if (awal == 'n' || awal == 'N'){
+        menu();
+    }
 } while (pilih > 2 || pilih < 1);
 }
 
 void maknyus ()
 {   
-    system("cls");
     do
     {
+        system("cls");
         cout << "* Warung Maknyus *\n1. Lihat menu\n2. Pesan Menu\n3. Cari menu\n4. Sorting\n5. Kembali ke menu utama\nPilih : ";
         cin >> pilih;
         switch (pilih)
         {
             case 1:
                 tampilkanMenu("Maknyus");
-                cout << "Kambali ke menu (y/n) : "; cin >> awal;
-                maknyus();
+                cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+                if (awal == 'n' || awal == 'N')
+                    menu();
                 break;
 
             case 2 : 
@@ -243,15 +300,15 @@ void maknyus ()
                 cout << " Pilihan tidak valid!\n";
                 break;
         
-        } 
-    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
+        }
+    } while (pilih > 5 || pilih < 1 || awal == 'y' || awal == 'Y');
 }
 
-  void Legenda ()
+void Legenda ()
 {
-    system("cls");
     do
     {
+        system("cls");
         cout << "* Warung Legenda *\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan menu\n";
@@ -263,7 +320,9 @@ void maknyus ()
         {
             case 1 : 
                 tampilkanMenu("Legenda");
-                cout << "Kambali ke menu (y/n) : "; cin >> awal;
+                cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+                if (awal == 'n' || awal == 'N')
+                    menu();
                 break;
 
             case 2 : 
@@ -286,14 +345,14 @@ void maknyus ()
                 cout << " Pilihan tidak valid!";
                 break;
         }
-    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
+    } while (pilih > 5 || pilih < 1 || awal == 'y' || awal == 'Y');
 }
 
 void FoodKuy ()
 {
-    system("cls");
     do
     { 
+        system("cls");
         cout << "* Warung FoodKuy *\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan menu\n";
@@ -305,7 +364,9 @@ void FoodKuy ()
         {
             case 1 :
             tampilkanMenu("Foodkuy");
-            cout << "Kambali ke menu (y/n) : "; cin >> awal;
+            cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+                if (awal == 'n' || awal == 'N')
+                    menu();
             break;
         
             case 2 : 
@@ -329,14 +390,14 @@ void FoodKuy ()
             break;
         }
 
-    } while ( pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'Y' || awal == 'y');
+    } while ( pilih > 5 || pilih < 1 || awal == 'y' || awal == 'Y');
 } 
 
 void Nusantara ()
 {
-    system("cls");
     do
     {
+        system("cls");
         cout << "* Warung Nusantara *\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan Menu\n";
@@ -348,7 +409,9 @@ void Nusantara ()
         {
             case 1 :
                 tampilkanMenu("Nusantara");
-                cout << "Kambali ke menu (y/n) : "; cin >> awal;
+                cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+                if (awal == 'n' || awal == 'N')
+                    menu();
                 break;
 
             case 2 : 
@@ -371,14 +434,14 @@ void Nusantara ()
                 cout << "Pilihan tidak valid!\n";
                 break;
         }
-    } while (pilih > 5 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
+    } while (pilih > 5 || pilih < 1 || awal == 'y' || awal == 'Y');
 }
 
 void Gepriks()
 {
-    system("cls");
     do
     {
+        system("cls");
         cout << "* Warung Gepriks *\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan Menu\n";
@@ -390,7 +453,9 @@ void Gepriks()
         {
             case 1 :
             tampilkanMenu("Gepriks");
-            cout << "Kambali ke menu (y/n) : "; cin >> awal;
+            cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+                if (awal == 'n' || awal == 'N')
+                    menu();
             break;
 
             case 2 : 
@@ -405,11 +470,90 @@ void Gepriks()
             sorting("Gepriks");
             break;
 
+            case 5 :
+            menu();
+            break;
+
             default:
             cout << "Pilihan tidak valid!\n";
             break;
         }
-    } while (pilih > 4 || pilih < 1 || pilih1 == 10 || awal == 'y' || awal == 'Y');
+    } while (pilih > 5 || pilih < 1 || awal == 'Y' || awal == 'y');
+}
+
+void konfirmasi(const string& namaWarung)
+{
+    int totalHarga = (hargaMakanan * jumlahMakanan) + (hargaMinuman * jumlahMinuman);
+    cout << "\n========= Konfirmasi Pesanan =========\n";
+    cout << "Warung: " << namaWarung << endl;
+    if (!namaMakanan.empty()) {
+        cout << "- Makanan : " << namaMakanan 
+             << " x" << jumlahMakanan 
+             << " = Rp " << hargaMakanan * jumlahMakanan << endl;
+    } else {
+        cout << "- Makanan : Tidak dipesan\n";
+    }
+
+    if (!namaMinuman.empty()) {
+        cout << "- Minuman : " << namaMinuman 
+             << " x" << jumlahMinuman 
+             << " = Rp " << hargaMinuman * jumlahMinuman << endl;
+    } else {
+        cout << "- Minuman : Tidak dipesan\n";
+    }
+
+    cout << "--------------------------------------\n";
+    cout << "Total Bayar: Rp " << totalHarga << endl;
+    cout << "======================================\n";
+
+    cout << "Apakah pesanan sudah benar (y/n)? : "; cin >> confirm;
+    if (confirm == 'y' || confirm == 'Y') {
+        ofstream file("pesanan.txt", ios::app);
+        if (file.is_open())
+        {
+            file << "Warung : " << namaWarung << endl;
+            if (!namaMakanan.empty()) {
+                file << "- Makanan : " << namaMakanan 
+                     << " x" << jumlahMakanan 
+                     << " = Rp " << hargaMakanan * jumlahMakanan << endl;
+            } else {
+                file << "- Makanan : Tidak dipesan\n";
+            }
+
+            if (!namaMinuman.empty()) {
+                file << "- Minuman : " << namaMinuman 
+                     << " x" << jumlahMinuman 
+                     << " = Rp " << hargaMinuman * jumlahMinuman << endl;
+            } else {
+                file << "- Minuman : Tidak dipesan\n";
+            }
+
+            file << "Total Bayar : Rp " << totalHarga << endl;
+            file << "--------------------------------------\n";
+            file.close();
+            cout << "\n[Pesanan telah disimpan ke file 'pesanan.txt']\n";
+        } else {
+            cout << "\n[Gagal membuka file!]\n";
+        }
+    } else {
+        cout << "\nSilakan periksa kembali pesanan Anda\n";
+    }
+
+    cout << "\nKembali ke menu awal (y/n)? : "; cin >> awal;
+    if (awal == 'y' || awal == 'Y')
+        if (namaWarung == "Maknyus")
+            maknyus();
+        else if (namaWarung == "Legenda")
+            Legenda();
+        else if (namaWarung == "Foodkuy")
+            FoodKuy();
+        else if (namaWarung == "Nusantara")
+            Nusantara();
+        else if (namaWarung == "Gepriks")
+            Gepriks();
+    else if (awal == 'n' || awal == 'N')
+        menu();
+
 }
 
 void cariMenu (const string& namaWarung)
@@ -433,6 +577,21 @@ void cariMenu (const string& namaWarung)
 
     if (!found)
         cout << "Menu tidak ditemukan di warung \n" << namaWarung << ".";
+    
+    cout << "\n\nKembali ke menu awal (y/n)? : "; cin >> awal;
+    if (awal == 'y' || awal == 'Y')
+        if (namaWarung == "Maknyus")
+            maknyus();
+        else if (namaWarung == "Legenda")
+            Legenda();
+        else if (namaWarung == "Foodkuy")
+            FoodKuy();
+        else if (namaWarung == "Nusantara")
+            Nusantara();
+        else if (namaWarung == "Gepriks")
+            Gepriks();
+    else if (awal == 'n' || awal == 'N')
+        menu();
 }
 
 void menu ()
@@ -476,8 +635,7 @@ void menu ()
         cout << " Input salah harap ulangi input Anda!";
         break;
    }
-   
-} while (( pilih > 5 || pilih < 1 ));
+} while (( pilih > 6 || pilih < 1 || awal == 'n' || awal == 'N'));
 }
 
 int main ()
