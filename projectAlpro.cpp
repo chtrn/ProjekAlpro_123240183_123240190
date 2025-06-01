@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include <algorithm>
 #include <fstream>
 using namespace std;
@@ -90,33 +89,31 @@ void tampilkanMenu(const string& namaWarung)
     cout << "======= Menu " << namaWarung << " =======" << endl;
     cout << "\nMakanan:\n";
     cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
-    int count = 1;
+    int nomor = 1;
     for (int i = 0; i < max_Menu; i++) {
         if (daftarMenu[i].namaWarung == namaWarung && i % 8 < 5) { 
-            cout << left << setw(5) << count << setw(20) << daftarMenu[i].nama
+            cout << left << setw(5) << nomor << setw(20) << daftarMenu[i].nama
                  << "Rp " << daftarMenu[i].harga << endl;
-            count++;
+            nomor++;
         }
     }
-    cout << left << setw(5) << count << setw(20) << "Tidak pesan makanan\n";
+    cout << left << setw(5) << nomor << setw(20) << "Tidak pesan makanan\n";
 
     cout << "\nMinuman:\n";
     cout << left << setw(5) << "No." << setw(20) << "Nama Menu" << "Harga" << endl;
-    int minumCount = 1;
+    int nomor2 = 1;
     for (int i = 0; i < max_Menu; i++) {
         if (daftarMenu[i].namaWarung == namaWarung && i % 8 >= 5 && i % 8 <= 7) { 
-            cout << left << setw(5) << minumCount << setw(20) << daftarMenu[i].nama
+            cout << left << setw(5) << nomor2 << setw(20) << daftarMenu[i].nama
                  << "Rp " << daftarMenu[i].harga << endl;
-            minumCount++;
+            nomor2++;
         }
     }
-    cout << left << setw(5) << minumCount << setw(20) << "Tidak pesan minuman\n";
+    cout << left << setw(5) << nomor2 << setw(20) << "Tidak pesan minuman\n";
 }
 
 void pesanMenu(const string& namaWarung)
 {
-    do
-    {
         tampilkanMenu(namaWarung);
         Menu makanan[5], minuman[3];
         int mknIdx = 0, mnmIdx = 0;
@@ -163,7 +160,6 @@ void pesanMenu(const string& namaWarung)
         }
 
         konfirmasi(namaWarung);
-    } while (confirm == 'n' || confirm == 'N');
 }
 
 void cariMenuDiWarung(const string& namaWarung)
@@ -269,7 +265,14 @@ void maknyus ()
     do
     {
         system("cls");
-        cout << "* Warung Maknyus *\n1. Lihat menu\n2. Pesan Menu\n3. Cari menu\n4. Sorting\n5. Kembali ke menu utama\nPilih : ";
+        cout << "------------------\n";
+        cout << "| Warung Maknyus |\n";
+        cout << "------------------\n";
+        cout << "1. Lihat menu\n";
+        cout << "2. Pesan Menu\n";
+        cout << "3. Cari menu\n";
+        cout << "4. Sorting\n";
+        cout << "5. Kembali ke menu utama\nPilih : ";
         cin >> pilih;
         switch (pilih)
         {
@@ -309,7 +312,9 @@ void Legenda ()
     do
     {
         system("cls");
-        cout << "* Warung Legenda *\n";
+        cout << "------------------\n";
+        cout << "| Warung Legenda |\n";
+        cout << "------------------\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan menu\n";
         cout << "3. Cari menu\n";
@@ -353,7 +358,9 @@ void FoodKuy ()
     do
     { 
         system("cls");
-        cout << "* Warung FoodKuy *\n";
+        cout << "------------------\n";
+        cout << "| Warung FoodKuy |\n";
+        cout << "------------------\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan menu\n";
         cout << "3. Cari menu\n";
@@ -398,7 +405,9 @@ void Nusantara ()
     do
     {
         system("cls");
-        cout << "* Warung Nusantara *\n";
+        cout << "--------------------\n";
+        cout << "| Warung Nusantara |\n";
+        cout << "--------------------\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan Menu\n";
         cout << "3. Cari menu\n";
@@ -442,7 +451,9 @@ void Gepriks()
     do
     {
         system("cls");
-        cout << "* Warung Gepriks *\n";
+        cout << "------------------\n";
+        cout << "| Warung Gepriks |\n";
+        cout << "------------------\n";
         cout << "1. Lihat menu\n";
         cout << "2. Pesan Menu\n";
         cout << "3. Cari menu\n";
@@ -599,7 +610,9 @@ void menu ()
     do
     {
     system("cls");
-    cout << " * Selamat datang di Kuliner Street Food ! * " << endl;
+    cout << " ===========================================\n";
+    cout << " | Selamat datang di Kuliner Street Food ! |" << endl;
+    cout << " ===========================================\n";
     cout << " 1. Maknyus \n 2. Legenda \n 3. FoodKuy! \n 4. Nusantara\n";
     cout << " 5. Gepriks\n 6. Keluar\n";
     cout << " Pilih Warung : ";
@@ -640,6 +653,7 @@ void menu ()
 
 int main ()
 {
+    Menu* daftarMenu = new Menu[max_Menu];
     system("cls");
     menu();
     return 0;
